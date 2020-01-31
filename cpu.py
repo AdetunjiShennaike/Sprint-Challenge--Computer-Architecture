@@ -165,7 +165,7 @@ class CPU:
               self.FL['L'] = 0
               self.FL['G'] = 1
               self.FL['E'] = 0
-            if self.Reg[reg_a] < self.Reg[reg_b]:
+            elif self.Reg[reg_a] < self.Reg[reg_b]:
               self.FL['L'] = 1
               self.FL['G'] = 0
               self.FL['E'] = 0
@@ -252,15 +252,24 @@ class CPU:
 
     def JEQ(self, reg_a):
       if self.FL['E'] == 1:
-        self.PC = reg_a
+        self.PC = self.Reg[reg_a]
+      #Move the Program Counter
+      else:
+        self.PC += 2
 
     def JGE(self, reg_a):
       if self.FL['E'] == 1 or self.FL['G'] == 1:
-        self.PC = reg_a
+        self.PC = self.Reg[reg_a]
+      #Move the Program Counter
+      else:
+        self.PC += 2
 
     def JGT(self, reg_a):
       if self.FL['G'] == 1:
-        self.PC = reg_a
+        self.PC = self.Reg[reg_a]
+      #Move the Program Counter
+      else:
+        self.PC += 2
 
     def POP(self, reg_a):
       self.Reg[reg_a] = self.ram_read(self.SP)
@@ -295,19 +304,28 @@ class CPU:
       self.PC += 1
 
     def JMP(self, reg_a):
-      self.PC = reg_a
+      self.PC = self.Reg[reg_a]
 
     def JNE(self, reg_a):
       if self.FL['E'] == 0:
-        self.PC = reg_a
+        self.PC = self.Reg[reg_a]
+      #Move the Program Counter
+      else:
+        self.PC += 2
 
     def JLT(self, reg_a):
       if self.FL['L'] == 1:
-        self.PC = reg_a
+        self.PC = self.Reg[reg_a]
+      #Move the Program Counter
+      else:
+        self.PC += 2
 
     def JLE(self, reg_a):
       if self.FL['E'] == 1 or self.FL['L'] == 1:
-        self.PC = reg_a
+        self.PC = self.Reg[reg_a]
+      #Move the Program Counter
+      else:
+        self.PC += 2
 
     def LD(self, reg_a, reg_b):
       self.Reg[reg_a] = self.ram_read(self.Reg[reg_b])
